@@ -1,0 +1,10 @@
+networks:
+
+  mumbai: 
+      # provider
+      provider: https://xxx
+      explorer: https://mumbai.polygonscan.com
+      # on which contracts you are going to listen
+      contracts: [
+        "0xd1Bfe2348f1cB26f5eDFb3e805b8487745368bf4"
+      ]
