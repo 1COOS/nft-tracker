@@ -14,15 +14,13 @@ export const webhook = async (embedOptions: EmbedOptions) => {
     .setColor(
       Colors[embedOptions.color] || embedOptions.color || Colors.Default,
     )
-    .setAuthor({ name: embedOptions.network })
-    .setTitle(embedOptions.title)
+    .setAuthor({ name: embedOptions.title, url: embedOptions.txUrl })
+    .setTitle(embedOptions.name)
     .setURL(embedOptions.url)
-    .setImage(embedOptions.tokenURI)
-    // .setDescription(embedOptions.description)
-    .addFields(
-      { name: 'Contract', value: `${embedOptions.contractAddress}` },
-      { name: 'Transaction', value: `${embedOptions.txUrl}` },
-    );
+    .setTimestamp(new Date())
+    .setImage(embedOptions.image)
+    .setDescription(embedOptions.description);
+
   if (embedOptions.from && embedOptions.from != ethers.ZeroAddress) {
     embed.addFields({ name: 'From', value: `${embedOptions.from}` });
   }
@@ -32,6 +30,7 @@ export const webhook = async (embedOptions: EmbedOptions) => {
   try {
     await webhookClient.send({ embeds: [embed] });
   } catch (err) {
+    console.log('Send webhook error');
     console.log(err);
   }
 };

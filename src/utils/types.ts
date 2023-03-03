@@ -1,14 +1,15 @@
-export const Networks = {
-  MUMBAI: 'MUMBAI',
-  POLYGON: 'POLYGON',
-  MAINNET: 'MAINNET',
-};
+export enum NetworkEnum {
+  MAINNET = 'MAINNET',
+  POLYGON = 'POLYGON',
+  MUMBAI = 'MUMBAI',
+}
 
 export interface EmbedOptions {
   color: string;
   title: string;
   url: string;
-  tokenURI: string;
+  name: string;
+  image: string;
   description?: string;
   network: string;
   contractAddress: string;

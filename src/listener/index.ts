@@ -2,39 +2,44 @@ import { ethers } from 'ethers';
 import { ERC721Abi } from '../utils/contract';
 import { webhook } from '../discord/webhook';
 import { createEmbedOptions } from '../discord/helper';
-import { Networks } from '../utils/types';
+import { NetworkEnum } from '../utils/types';
+import { getNFTMetadata } from '../utils/alchemy';
 import config from '../utils/config';
 
-try {
-  const mumbaiProvider = new ethers.JsonRpcProvider(config.provider.MUMBAI);
+export const listen = async (network: NetworkEnum) => {
+  const provider = new ethers.JsonRpcProvider(config.provider[`${network}`]);
+  const contractAddresses = config.contracts[`${network}`];
 
-  const mumbaiContracts = config.contracts.MUMBAI;
+  contractAddresses.forEach((contractAddress: string) => {
+    const contract = new ethers.Contract(contractAddress, ERC721Abi, provider);
 
-  mumbaiContracts.forEach((contractAddress: string) => {
-    const contract = new ethers.Contract(
-      contractAddress,
-      ERC721Abi,
-      mumbaiProvider,
-    );
-    console.log(`Listening on Mumbai contract ${contractAddress}`);
     contract.on('Transfer', async (from, to, tokenId, event) => {
-      const tokenURI = await contract.tokenURI(tokenId);
-      // const name = await contract.name();
-      const symbol = await contract.symbol();
+      try {
+        const name = await contract.name();
+        const symbol = await contract.symbol();
+        const metadata = await getNFTMetadata(
+          network,
+          contractAddress,
+          tokenId,
+        );
 
-      const embedOptions = createEmbedOptions(
-        Networks.MUMBAI,
-        contractAddress,
-        symbol,
-        event.log.transactionHash,
-        from,
-        to,
-        tokenId,
-        tokenURI,
-      );
-      await webhook(embedOptions);
+        const embedOptions = createEmbedOptions(
+          network,
+          contractAddress,
+          name,
+          symbol,
+          event.log.transactionHash,
+          from,
+          to,
+          tokenId,
+          metadata.media[0].gateway,
+          metadata.description,
+        );
+        await webhook(embedOptions);
+      } catch (e) {
+        console.log(e);
+      }
     });
   });
-} catch (e) {
-  console.log(e);
-}
+  console.log(`Listening on ${network} `);
+};

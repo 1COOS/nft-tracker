@@ -1,22 +1,25 @@
 import { ethers } from 'ethers';
-import { EmbedOptions, Networks } from '../utils/types';
+import { EmbedOptions } from '../utils/types';
 import config from '../utils/config';
 
 export const createEmbedOptions = (
   network: string,
   contractAddress: string,
+  name: string,
   symbol: string,
   txHash: string,
   from: string,
   to: string,
   tokenId: string,
-  tokenURI: string,
+  image: string,
+  description: string,
 ) => {
   let title = 'Transfer';
   let color = 'Gold';
 
-  const url = `${config.explorer[Networks.MUMBAI]}/address/${contractAddress}`;
-  const txUrl = `${config.explorer[Networks.MUMBAI]}/tx/${txHash}`;
+  const explorer = config.explorer[`${network}`];
+  const url = `${explorer}/address/${contractAddress}`;
+  const txUrl = `${explorer}/tx/${txHash}`;
 
   if (from === ethers.ZeroAddress) {
     title = 'Mint';
@@ -29,14 +32,16 @@ export const createEmbedOptions = (
 
   const embedOptions: EmbedOptions = {
     color,
-    title: `${symbol} #${tokenId} - ${title} `,
+    title: `${network} - ${symbol} #${tokenId} - ${title} `,
     url,
+    name,
     network,
     contractAddress,
     txUrl,
     from,
     to,
-    tokenURI,
+    image,
+    description,
   };
   return embedOptions;
 };
