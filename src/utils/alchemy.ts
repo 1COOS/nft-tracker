@@ -2,6 +2,11 @@ import { Alchemy, Network } from 'alchemy-sdk';
 import { NetworkEnum } from './types';
 import config from '../utils/config';
 
+const alchemyMainnet = new Alchemy({
+  apiKey: config.alchemy.APP_KEY,
+  network: Network.ETH_MAINNET,
+});
+
 const alchemyMumbai = new Alchemy({
   apiKey: config.alchemy.APP_KEY,
   network: Network.MATIC_MUMBAI,
@@ -33,6 +38,9 @@ export const getNFTMetadata = async (
 
 const switchNetwork = (network: NetworkEnum) => {
   switch (network) {
+    case NetworkEnum.MAINNET:
+      alchemy = alchemyMainnet;
+      break;
     case NetworkEnum.POLYGON:
       alchemy = alchemyPolygon;
       break;

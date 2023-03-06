@@ -10,16 +10,19 @@ config({ path: '.env' });
 
 export default {
   explorer: {
-    MUMBAI: `${Constants.Mumbai.EXPLORER}`,
+    MAINNET: `${Constants.Mainnet.EXPLORER}`,
     POLYGON: `${Constants.Polygon.EXPLORER}`,
+    MUMBAI: `${Constants.Mumbai.EXPLORER}`,
   },
   provider: {
-    MUMBAI: `${Constants.Mumbai.ALCHEMY_PROVIDER}/${process.env.ALCHEMY_APP_KEY}`,
+    MAINNET: `${Constants.Mainnet.ALCHEMY_PROVIDER}/${process.env.ALCHEMY_APP_KEY}`,
     POLYGON: `${Constants.Polygon.ALCHEMY_PROVIDER}/${process.env.ALCHEMY_APP_KEY}`,
+    MUMBAI: `${Constants.Mumbai.ALCHEMY_PROVIDER}/${process.env.ALCHEMY_APP_KEY}`,
   },
   contracts: {
-    MUMBAI: y.networks.mumbai.contracts,
+    MAINNET: y.networks.mainnet.contracts,
     POLYGON: y.networks.polygon.contracts,
+    MUMBAI: y.networks.mumbai.contracts,
   },
   discord: {
     DISCORD_BOT_TOKEN: process.env.DISCORD_BOT_TOKEN,
