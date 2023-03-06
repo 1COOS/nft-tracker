@@ -2,7 +2,7 @@ import { ethers } from 'ethers';
 
 export const isERC20Contract = async (
   address: string,
-  provider: ethers.Provider,
+  provider: ethers.providers.Provider,
 ): Promise<boolean> => {
   const code = await provider.getCode(address);
   const ERC20Code = '0x6080604052';
@@ -11,7 +11,7 @@ export const isERC20Contract = async (
 
 export const isERC721Contract = async (
   address: string,
-  provider: ethers.Provider,
+  provider: ethers.providers.Provider,
 ): Promise<boolean> => {
   const code = await provider.getCode(address);
   const ERC721Code = '0x6080604052';

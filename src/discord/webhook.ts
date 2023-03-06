@@ -21,10 +21,10 @@ export const webhook = async (embedOptions: EmbedOptions) => {
     .setImage(embedOptions.image)
     .setDescription(embedOptions.description);
 
-  if (embedOptions.from && embedOptions.from != ethers.ZeroAddress) {
+  if (embedOptions.from && embedOptions.from != ethers.constants.AddressZero) {
     embed.addFields({ name: 'From', value: `${embedOptions.from}` });
   }
-  if (embedOptions.to && embedOptions.to != ethers.ZeroAddress) {
+  if (embedOptions.to && embedOptions.to != ethers.constants.AddressZero) {
     embed.addFields({ name: 'To', value: `${embedOptions.to}` });
   }
   try {

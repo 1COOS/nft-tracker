@@ -7,7 +7,11 @@ import { getNFTMetadata } from '../utils/alchemy';
 import config from '../utils/config';
 
 export const listen = async (network: NetworkEnum) => {
-  const provider = new ethers.JsonRpcProvider(config.provider[`${network}`]);
+  console.log(config.provider[`${network}`]);
+  const provider = new ethers.providers.WebSocketProvider(
+    config.provider[`${network}`],
+  );
+
   const contractAddresses = config.contracts[`${network}`];
 
   contractAddresses.forEach((contractAddress: string) => {
@@ -22,17 +26,17 @@ export const listen = async (network: NetworkEnum) => {
           contractAddress,
           tokenId,
         );
-
+        console.log(metadata);
         const embedOptions = createEmbedOptions(
           network,
           contractAddress,
           name,
           symbol,
-          event.log.transactionHash,
+          event.transactionHash,
           from,
           to,
           tokenId,
-          metadata.media[0].gateway,
+          metadata.contract.openSea?.imageUrl || metadata.media[0]?.gateway,
           metadata.description,
         );
         await webhook(embedOptions);

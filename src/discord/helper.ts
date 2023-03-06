@@ -21,11 +21,11 @@ export const createEmbedOptions = (
   const url = `${explorer}/address/${contractAddress}`;
   const txUrl = `${explorer}/tx/${txHash}`;
 
-  if (from === ethers.ZeroAddress) {
+  if (from === ethers.constants.AddressZero) {
     title = 'Mint';
     color = 'Aqua';
   }
-  if (to === ethers.ZeroAddress) {
+  if (to === ethers.constants.AddressZero) {
     title = 'Burn';
     color = 'DarkGrey';
   }

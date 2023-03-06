@@ -29,7 +29,7 @@
     "alchemy-sdk": "^2.5.0",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
-    "ethers": "^6.0.8",
+    "ethers": "5.7.2",
     "ipfs-http-client": "^60.0.0",
     "yaml": "^2.2.1"
   },
