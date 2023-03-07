@@ -11,6 +11,7 @@ export const createEmbedOptions = (
   from: string,
   to: string,
   tokenId: string,
+  icon: string,
   image: string,
   description: string,
 ) => {
@@ -40,6 +41,7 @@ export const createEmbedOptions = (
     txUrl,
     from,
     to,
+    icon,
     image,
     description,
   };

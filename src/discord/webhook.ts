@@ -14,7 +14,11 @@ export const webhook = async (embedOptions: EmbedOptions) => {
     .setColor(
       Colors[embedOptions.color] || embedOptions.color || Colors.Default,
     )
-    .setAuthor({ name: embedOptions.title, url: embedOptions.txUrl })
+    .setAuthor({
+      name: embedOptions.title,
+      url: embedOptions.txUrl,
+      iconURL: embedOptions.icon,
+    })
     .setTitle(embedOptions.name)
     .setURL(embedOptions.url)
     .setTimestamp(new Date())

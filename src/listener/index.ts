@@ -35,7 +35,8 @@ export const listen = async (network: NetworkEnum) => {
           from,
           to,
           tokenId,
-          metadata.contract.openSea?.imageUrl || metadata.media[0]?.gateway,
+          metadata.contract.openSea?.imageUrl,
+          metadata.media[0]?.gateway,
           metadata.description,
         );
         await webhook(embedOptions);

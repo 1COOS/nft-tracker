@@ -9,6 +9,7 @@ export interface EmbedOptions {
   title: string;
   url: string;
   name: string;
+  icon: string;
   image: string;
   description?: string;
   network: string;
