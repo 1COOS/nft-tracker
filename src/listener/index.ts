@@ -25,7 +25,7 @@ export const listen = async (network: NetworkEnum) => {
           contractAddress,
           tokenId,
         );
-        console.log(metadata);
+
         const embedOptions = createEmbedOptions(
           network,
           contractAddress,

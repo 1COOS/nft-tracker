@@ -28,6 +28,11 @@ export default {
     POLYGON: y.networks.polygon.contracts,
     MUMBAI: y.networks.mumbai.contracts,
   },
+  accounts: {
+    MAINNET: y.networks.mainnet.accounts,
+    POLYGON: y.networks.polygon.accounts,
+    MUMBAI: y.networks.mumbai.accounts,
+  },
   discord: {
     DISCORD_BOT_TOKEN: process.env.DISCORD_BOT_TOKEN,
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,

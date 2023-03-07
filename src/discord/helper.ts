@@ -1,9 +1,10 @@
 import { ethers } from 'ethers';
-import { EmbedOptions } from '../utils/types';
+import { EmbedOptions, NetworkEnum } from '../utils/types';
+import { getName } from '../utils/accounts';
 import config from '../utils/config';
 
 export const createEmbedOptions = (
-  network: string,
+  network: NetworkEnum,
   contractAddress: string,
   name: string,
   symbol: string,
@@ -25,10 +26,14 @@ export const createEmbedOptions = (
   if (from === ethers.constants.AddressZero) {
     title = 'Mint';
     color = 'Aqua';
+  } else {
+    from = getName(network, from);
   }
   if (to === ethers.constants.AddressZero) {
     title = 'Burn';
     color = 'DarkGrey';
+  } else {
+    to = getName(network, to);
   }
 
   const embedOptions: EmbedOptions = {
