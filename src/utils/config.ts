@@ -3,7 +3,11 @@ import fs from 'fs';
 import YAML from 'yaml';
 import Constants from './constants';
 
-const file = fs.readFileSync('config.yaml', 'utf8');
+let configPath = '/config/config.yaml';
+if (!fs.existsSync(configPath)) {
+  configPath = 'config.yaml';
+}
+const file = fs.readFileSync(configPath, 'utf8');
 const y = YAML.parse(file);
 
 config({ path: '.env' });

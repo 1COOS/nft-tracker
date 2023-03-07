@@ -7,7 +7,6 @@ import { getNFTMetadata } from '../utils/alchemy';
 import config from '../utils/config';
 
 export const listen = async (network: NetworkEnum) => {
-  console.log(config.provider[`${network}`]);
   const provider = new ethers.providers.WebSocketProvider(
     config.provider[`${network}`],
   );

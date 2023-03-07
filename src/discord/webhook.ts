@@ -18,9 +18,11 @@ export const webhook = async (embedOptions: EmbedOptions) => {
     .setTitle(embedOptions.name)
     .setURL(embedOptions.url)
     .setTimestamp(new Date())
-    .setImage(embedOptions.image)
-    .setDescription(embedOptions.description);
+    .setImage(embedOptions.image);
 
+  if (embedOptions.description?.length >= 1) {
+    embed.setDescription(embedOptions.description);
+  }
   if (embedOptions.from && embedOptions.from != ethers.constants.AddressZero) {
     embed.addFields({ name: 'From', value: `${embedOptions.from}` });
   }

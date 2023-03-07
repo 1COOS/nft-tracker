@@ -13,4 +13,6 @@ RUN pnpm i
 
 COPY . /app/
 
-CMD ["pnpm","run","run"]
+ENTRYPOINT ["/app/scripts/init.sh"]
+
+# CMD ["pnpm","run","run"]
