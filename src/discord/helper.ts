@@ -1,7 +1,10 @@
 import { ethers } from 'ethers';
 import { EmbedOptions, NetworkEnum } from '../utils/types';
-import { getName } from '../utils/accounts';
+import { getAddressName } from '../utils/accounts';
 import config from '../utils/config';
+
+let title = 'Transfer';
+let color = 'Gold';
 
 export const createEmbedOptions = (
   network: NetworkEnum,
@@ -16,24 +19,23 @@ export const createEmbedOptions = (
   image: string,
   description: string,
 ) => {
-  let title = 'Transfer';
-  let color = 'Gold';
-
   const explorer = config.explorer[`${network}`];
-  const url = `${explorer}/address/${contractAddress}`;
   const txUrl = `${explorer}/tx/${txHash}`;
+  const url = `${explorer}/address/${contractAddress}`;
+  const fromUrl = `${explorer}/address/${from}`;
+  const toUrl = `${explorer}/address/${to}`;
 
   if (from === ethers.constants.AddressZero) {
     title = 'Mint';
     color = 'Aqua';
   } else {
-    from = getName(network, from);
+    from = `[${getAddressName(network, from)}](${fromUrl})`;
   }
   if (to === ethers.constants.AddressZero) {
     title = 'Burn';
     color = 'DarkGrey';
   } else {
-    to = getName(network, to);
+    to = `[${getAddressName(network, to)}](${toUrl})`;
   }
 
   const embedOptions: EmbedOptions = {

@@ -1,34 +1,75 @@
+import { ethers } from 'ethers';
 import config from './config';
 import { NetworkEnum } from './types';
 
 const mumbaiAccounts = config.accounts.MUMBAI;
+const polygonAccounts = config.accounts.POLYGON;
+const mainnetAccounts = config.accounts.MAINNET;
 
-const mainnetMap = {};
-const polygonMap = {};
-const mumbaiMap = {};
+const mainnetMap = new Map<string, string>();
+const polygonMap = new Map<string, string>();
+const mumbaiMap = new Map<string, string>();
 
-mumbaiAccounts.forEach((account: string) => {
-  const address = Object.keys(account)[0];
-  const name = account[address];
-  mumbaiMap[address] = name;
-});
+export const initAccounts = () => {
+  mainnetAccounts?.forEach((account) => {
+    const address = Object.keys(account)[0];
+    const name = account[address];
+    if (!mainnetMap.has(address.toLowerCase())) {
+      mainnetMap.set(address.toLowerCase(), name);
+    }
+  });
 
-export const getName = (network: NetworkEnum, address: string): string => {
-  let name;
+  polygonAccounts?.forEach((account) => {
+    const address = Object.keys(account)[0];
+    const name = account[address];
+    if (!polygonMap.has(address)) {
+      polygonMap.set(address, name);
+    }
+  });
+
+  mumbaiAccounts?.forEach((account) => {
+    const address = Object.keys(account)[0];
+    const name = account[address];
+    if (!mumbaiMap.has(address.toLowerCase())) {
+      mumbaiMap.set(address.toLowerCase(), name);
+    }
+  });
+  console.log('mumbaiMap === ', mumbaiMap);
+};
+let accountMap: Map<string, string>;
+
+export const getAddressName = (
+  network: NetworkEnum,
+  address: string,
+): string => {
+  accountMap = switchNetwork(network);
+  let addressName = accountMap.get(address.toLowerCase());
+  if (!addressName) {
+    addressName = address;
+  }
+  return addressName;
+};
+
+export const hasAddress = (network: NetworkEnum, address: string): boolean => {
+  accountMap = switchNetwork(network);
+  return (
+    accountMap.has(address.toLowerCase()) ||
+    address === ethers.constants.AddressZero
+  );
+};
+
+const switchNetwork = (network: NetworkEnum): Map<string, string> => {
   switch (network) {
     case NetworkEnum.MAINNET:
-      name = mainnetMap[address];
+      accountMap = mainnetMap;
       break;
     case NetworkEnum.POLYGON:
-      name = polygonMap[address];
+      accountMap = polygonMap;
       break;
     case NetworkEnum.MUMBAI:
-      name = mumbaiMap[address];
+      accountMap = mumbaiMap;
       break;
     default:
   }
-  if (!name) {
-    name = address;
-  }
-  return name;
+  return accountMap;
 };

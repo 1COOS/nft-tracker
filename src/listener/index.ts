@@ -4,6 +4,7 @@ import { webhook } from '../discord/webhook';
 import { createEmbedOptions } from '../discord/helper';
 import { NetworkEnum } from '../utils/types';
 import { getNFTMetadata } from '../utils/alchemy';
+import { hasAddress } from '../utils/accounts';
 import config from '../utils/config';
 
 export const listen = async (network: NetworkEnum) => {
@@ -18,28 +19,30 @@ export const listen = async (network: NetworkEnum) => {
 
     contract.on('Transfer', async (from, to, tokenId, event) => {
       try {
-        const name = await contract.name();
-        const symbol = await contract.symbol();
-        const metadata = await getNFTMetadata(
-          network,
-          contractAddress,
-          tokenId,
-        );
+        if (hasAddress(network, from) || hasAddress(network, to)) {
+          const name = await contract.name();
+          const symbol = await contract.symbol();
+          const metadata = await getNFTMetadata(
+            network,
+            contractAddress,
+            tokenId,
+          );
 
-        const embedOptions = createEmbedOptions(
-          network,
-          contractAddress,
-          name,
-          symbol,
-          event.transactionHash,
-          from,
-          to,
-          tokenId,
-          metadata.contract.openSea?.imageUrl,
-          metadata.media[0]?.gateway,
-          metadata.description,
-        );
-        await webhook(embedOptions);
+          const embedOptions = createEmbedOptions(
+            network,
+            contractAddress,
+            name,
+            symbol,
+            event.transactionHash,
+            from,
+            to,
+            tokenId,
+            metadata.contract.openSea?.imageUrl,
+            metadata.media[0]?.gateway,
+            metadata.description,
+          );
+          await webhook(embedOptions);
+        }
       } catch (e) {
         console.log(e);
       }
